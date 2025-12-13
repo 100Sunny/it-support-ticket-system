@@ -58,9 +58,13 @@ class TicketController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function updateStatus(Request $request, Ticket $ticket)
     {
-        //
+        if (!auth()->user()->is_agent) {
+            abort(403);
+        }
+
+        $ticket->update(['status' => $request->status]);
     }
 
     /**
