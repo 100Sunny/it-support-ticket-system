@@ -3,23 +3,26 @@
 namespace App\Mail;
 
 use App\Models\Ticket;
+use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Queue\SerializesModels;
 
 class StatusUpdateMail extends Mailable
 {
-    public Ticket $ticket;
+    use Queueable, SerializesModels;
 
-    public function __construct(Ticket $ticket)
+    public Ticket $ticket;
+    public string $oldStatus;
+
+    public function __construct(Ticket $ticket, string $oldStatus)
     {
         $this->ticket = $ticket;
+        $this->oldStatus = $oldStatus;
     }
 
     public function build()
     {
-        return $this->subject('Ticket status updated')
-            ->view('emails.ticket_status_updated')
-            ->with([
-                'ticket' => $this->ticket
-            ]);
+        return $this->subject('Ticket Status Updated')
+            ->view('emails.ticket_status_updated');
     }
 }

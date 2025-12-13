@@ -1,6 +1,12 @@
-<h2>New comment on your ticket</h2>
+<h2>New Comment Added</h2>
+
+<p>A support agent has replied to your ticket.</p>
 
 <p><strong>Ticket:</strong> {{ $ticket->title }}</p>
-
 <p><strong>Comment:</strong></p>
-<p>{{ $comment->content }}</p>
+
+<blockquote>
+    {{ $comment->body }}
+</blockquote>
+
+<p>IT Support Team</p>

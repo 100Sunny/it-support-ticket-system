@@ -9,7 +9,7 @@ class Ticket extends Model
 {
     use HasFactory;
 
-    // ✅ ESTADOS DEL TICKET
+    // ESTADOS DEL TICKET
     public const STATUS_NEW = 'New';
     public const STATUS_IN_PROGRESS = 'In Progress';
     public const STATUS_COMPLETED = 'Completed';
