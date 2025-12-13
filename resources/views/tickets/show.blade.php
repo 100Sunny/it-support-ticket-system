@@ -16,7 +16,9 @@
 
     <form method="POST" action="{{ route('tickets.comments.store', $ticket) }}">
         @csrf
-        <textarea name="content" required></textarea>
-        <button type="submit">Add Comment</button>
+
+        <textarea name="body" required></textarea>
+
+        <button type="submit">Add comment</button>
     </form>
 </x-app-layout>

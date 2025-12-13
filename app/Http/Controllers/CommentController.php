@@ -3,21 +3,30 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Comment;
 use App\Models\Ticket;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\NewCommentMail;
 
 class CommentController extends Controller
 {
     public function store(Request $request, Ticket $ticket)
     {
-        abort_if(!auth()->user()->is_agent, 403);
-
-        Comment::create([
-            'body' => $request->body,
-            'ticket_id' => $ticket->id,
-            'user_id' => auth()->id(),
+        // ✅ Validación correcta
+        $request->validate([
+            'body' => 'required|string'
         ]);
 
-        return back();
+        // ✅ Crear comentario
+        $ticket->comments()->create([
+            'user_id' => auth()->id(),
+            'body' => $request->body
+        ]);
+
+        // ✅ Enviar email al creador del ticket
+        Mail::to($ticket->user->email)->send(
+            new NewCommentMail($ticket)
+        );
+
+        return back()->with('success', 'Comment added successfully');
     }
 }
