@@ -1,24 +1,69 @@
 <x-app-layout>
-    <h1>{{ $ticket->title }}</h1>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            Ticket #{{ $ticket->id }} - {{ $ticket->title }}
+        </h2>
+    </x-slot>
 
-    <p>{{ $ticket->description }}</p>
-    <p>Status: {{ $ticket->status }}</p>
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-    <hr>
+            {{-- Ticket info --}}
+            <div class="bg-white shadow rounded p-6 mb-6">
+                <h3 class="text-2xl font-bold mb-2">{{ $ticket->title }}</h3>
+                <p class="mb-4">{{ $ticket->description }}</p>
 
-    <h3>Comments</h3>
+                <p><strong>Category:</strong> {{ $ticket->category->name }}</p>
+                <p><strong>Status:</strong> {{ $ticket->status }}</p>
+                <p><strong>Created by:</strong> {{ $ticket->user->name }}</p>
+            </div>
 
-    @foreach ($ticket->comments as $comment)
-        <p>{{ $comment->content }}</p>
-    @endforeach
+            {{-- EDIT / DELETE (ONLY OWNER + NEW) --}}
+            @if(auth()->id() === $ticket->user_id && $ticket->status === 'New')
+                <div class="mb-6">
+                    <a href="{{ route('tickets.edit', $ticket) }}"
+                       class="bg-yellow-500 text-white px-4 py-2 rounded mr-2">
+                        Edit Ticket
+                    </a>
 
-    <hr>
+                    <form action="{{ route('tickets.destroy', $ticket) }}"
+                          method="POST"
+                          class="inline">
+                        @csrf
+                        @method('DELETE')
 
-    <form method="POST" action="{{ route('tickets.comments.store', $ticket) }}">
-        @csrf
+                        <button type="submit"
+                                class="bg-red-600 text-white px-4 py-2 rounded"
+                                onclick="return confirm('Are you sure?')">
+                            Delete Ticket
+                        </button>
+                    </form>
+                </div>
+            @endif
 
-        <textarea name="body" required></textarea>
+            {{-- STATUS UPDATE (AGENT ONLY) --}}
+            @if(auth()->user()->is_agent)
+                @include('tickets.status_update')
+            @endif
 
-        <button type="submit">Add comment</button>
-    </form>
+            {{-- COMMENTS --}}
+            <div class="bg-white shadow rounded p-6 mt-6">
+                <h4 class="text-xl font-semibold mb-4">Comments</h4>
+
+                @forelse($ticket->comments as $comment)
+                    <div class="border-b py-2">
+                        <strong>{{ $comment->user->name }}</strong>:
+                        {{ $comment->body }}
+                    </div>
+                @empty
+                    <p>No comments yet.</p>
+                @endforelse
+
+                @if(auth()->user()->is_agent)
+                    @include('tickets.new_comment')
+                @endif
+            </div>
+
+        </div>
+    </div>
 </x-app-layout>
