@@ -5,11 +5,12 @@
         @csrf
 
         <div class="mb-4">
-            <textarea name="body"
-                      rows="3"
-                      class="w-full border rounded p-2"
-                      placeholder="Write your response..."
-                      required></textarea>
+            <textarea name="content"
+                        rows="3"
+                        class="w-full border rounded p-2"
+                        placeholder="Write your response..."
+                        required></textarea>
+
         </div>
 
         <button type="submit"

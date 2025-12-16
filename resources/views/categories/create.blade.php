@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Crear Nueva Categoría
+            Create New Category
         </h2>
     </x-slot>
 
@@ -12,7 +12,7 @@
                 <form method="POST" action="{{ route('categories.store') }}">
                     @csrf
                     <div class="mb-4">
-                        <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Nombre de la Categoría:</label>
+                        <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Name of Category:</label>
                         <input type="text" name="name" id="name" value="{{ old('name') }}" required 
                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('name') border-red-500 @enderror">
                         @error('name')
@@ -22,10 +22,10 @@
 
                     <div class="flex items-center justify-between">
                         <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                            Guardar Categoría
+                            Save Category
                         </button>
                         <a href="{{ route('categories.index') }}" class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
-                            Cancelar
+                            Cancel
                         </a>
                     </div>
                 </form>

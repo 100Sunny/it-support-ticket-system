@@ -12,19 +12,20 @@ class CommentController extends Controller
 {
     public function store(Request $request, Ticket $ticket)
     {
-        // 🔒 SECURITY: only agents can comment
+        // SECURITY: only agents can comment
         if (!Auth::user()->is_agent) {
             abort(403, 'Only support agents can add comments.');
         }
 
         $validated = $request->validate([
-            'body' => 'required|string',
+            'content' => 'required|string',
         ]);
 
         $comment = $ticket->comments()->create([
-            'body'    => $validated['body'],
-            'user_id'=> Auth::id(),
+            'content' => $validated['content'],
+            'user_id' => Auth::id(),
         ]);
+
 
         // Notify ticket owner
         Mail::to($ticket->user)->send(

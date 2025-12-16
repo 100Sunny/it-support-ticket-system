@@ -23,7 +23,7 @@
                     <div class="mb-4">
                         <x-label for="category_id" value="Categoría" />
                         <select id="category_id" name="category_id" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm w-full" required>
-                            <option value="">Seleccione una categoría</option>
+                            <option value="">Select a category</option>
                             @foreach ($categories as $category)
                                 <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
                                     {{ $category->name }}
@@ -35,14 +35,14 @@
 
                     {{-- Descripción --}}
                     <div class="mb-4">
-                        <x-label for="description" value="Descripción del Problema" />
+                        <x-label for="description" value="Description of problem" />
                         <textarea id="description" name="description" rows="5" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm w-full" required>{{ old('description') }}</textarea>
                         <x-input-error for="description" class="mt-2" />
                     </div>
 
                     <div class="flex items-center justify-end mt-4">
                         <x-button class="ml-4">
-                            {{ __('Enviar Ticket') }}
+                            {{ __('Send Ticket') }}
                         </x-button>
                     </div>
                 </form>

@@ -6,7 +6,7 @@
 <p><strong>Comment:</strong></p>
 
 <blockquote>
-    {{ $comment->body }}
+    {{ $comment->content }}
 </blockquote>
 
 <p>IT Support Team</p>
